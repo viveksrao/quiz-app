@@ -8,7 +8,8 @@ export default class Game extends Component {
     this.state = {
       questions: null,
       currentQuestion: null,
-      loading: true
+      loading: true,
+      score: 0
     };
   }
   async componentDidMount() {
@@ -24,7 +25,7 @@ export default class Game extends Component {
     }
   }
 
-  changeQuestion = () => {
+  changeQuestion = (bonus = 0) => {
     // get a random index of a question
     const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length)
     // we set the current question to the question at that random index
@@ -33,11 +34,13 @@ export default class Game extends Component {
     const remainingQuestions = [...this.state.questions];
     remainingQuestions.splice(randomQuestionIndex, 1);
     // update the state to reflect these changes
-    this.setState({
+    this.setState((prevState) => ({
       questions: remainingQuestions,
       currentQuestion: currentQuestion,
-      loading: false
-    });
+      loading: false,
+      score: prevState.score += bonus
+    }));
+    console.log(this.state.score);
   }
   
   render() {
