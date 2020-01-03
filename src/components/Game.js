@@ -31,9 +31,10 @@ export default class Game extends Component {
 
   changeQuestion = (bonus = 0) => {
     if(this.state.questions.length === 0) {
-      return this.setState({
-        done: true
-      });
+      return this.setState((prevState) => ({
+        done: true,
+        score: prevState.score + bonus
+      }));
     }
     // get a random index of a question
     const randomQuestionIndex = Math.floor(Math.random() * this.state.questions.length)
@@ -53,22 +54,23 @@ export default class Game extends Component {
   }
   
   render() {
+    const { loading, done, currentQuestion, score, questionNumber } = this.state;
     return (
       <>
-        {this.state.loading && !this.state.done && <div id="loader"/>}
-        {!this.state.done && !this.state.loading && this.state.currentQuestion && (
+        {loading && !done && <div id="loader"/>}
+        {!done && !loading && currentQuestion && (
           <>
           <HUD 
-            score={this.state.score} 
-            questionNumber={this.state.questionNumber}
+            score={score} 
+            questionNumber={questionNumber}
           />
           <Question 
-            question={this.state.currentQuestion} 
+            question={currentQuestion} 
             changeQuestion={this.changeQuestion}
           />
           </>
         )}
-        {this.state.done && <SaveScoreForm score={this.state.score}/>}
+        {done && <SaveScoreForm score={score}/>}
       </>
     )
   }
