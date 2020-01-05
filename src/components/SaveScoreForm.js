@@ -5,7 +5,6 @@ import { useFirebase } from './Firebase/FirebaseContext';
 export default function SaveScoreForm({ score, scoreSaved }) {
   const [username, setUsername] = useState('');
   const firebase = useFirebase();
-  console.log(firebase);
   const onUsernameChange = (e) => {
     const updatedUsername = e.target.value;
     setUsername(updatedUsername);
@@ -17,10 +16,8 @@ export default function SaveScoreForm({ score, scoreSaved }) {
       score: score
     };
     firebase.scores().push(record, () => {
-      console.log('Score Saved!');
       scoreSaved();
     })
-    console.log(record);
   };
   return (
     <div className="container">
