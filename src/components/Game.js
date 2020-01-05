@@ -52,6 +52,10 @@ export default class Game extends Component {
       questionNumber: prevState.questionNumber + 1
     }));
   }
+
+  scoreSaved = () => {
+    this.props.history.push('/');
+  }
   
   render() {
     const { loading, done, currentQuestion, score, questionNumber } = this.state;
@@ -70,7 +74,7 @@ export default class Game extends Component {
           />
           </>
         )}
-        {done && <SaveScoreForm score={score}/>}
+        {done && <SaveScoreForm score={score} scoreSaved={this.scoreSaved}/>}
       </>
     )
   }
